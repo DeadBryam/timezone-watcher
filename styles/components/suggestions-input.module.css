@@ -1,0 +1,67 @@
+.searchBoxContainer {
+    position: relative;
+}
+
+.searchBoxWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchBoxIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translateY(-50%);
+    color: var(--secondary);
+    z-index: 1;
+}
+
+.searchBox {
+    width: 100%;
+    height: 40px;
+    background-color: white;
+    border: transparent 2px solid;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    padding: 0 10px 0 34px;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+.searchBox:focus {
+    outline: var(--tertiary) 2px solid;
+}
+
+.autoCompleteList {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.autoCompleteList>li {
+    list-style: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.autoCompleteList>li:hover {
+    background-color: #f5f5f5;
+    font-weight: 500;
+}
+
+.showAutoCompleteList {
+    display: block;
+    padding: 10px;
+    margin-top: 10px;
+}
