@@ -4,6 +4,7 @@ import { classNames } from "../utils";
 
 interface CardProps {
   children: React.ReactNode;
+  onClick?: () => void;
   className?: string;
 }
 
@@ -14,6 +15,7 @@ function Card(props: CardProps): JSX.Element {
     <div
       id="card"
       data-testid="card"
+      onClick={props.onClick}
       className={classNames(styles.cardContainer, className)}
     >
       {children}
