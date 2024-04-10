@@ -1,0 +1,57 @@
+.lightTitle {
+    color: #000;
+}
+
+.darkTitle {
+    color: #fff;
+}
+
+.lightCard {
+    background-color: white;
+}
+
+.darkCard {
+    background-color: var(--quinary);
+}
+
+.card {
+    gap: 10px;
+    flex-grow: 1;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.title {
+    font-weight: 600;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: color 0.3s;
+}
+
+.icon {
+    position: absolute;
+    top: 9px;
+    right: 8px;
+    transform: translate(-50%, 50%);
+    font-size: 1.5rem;
+    color: var(--quaternary);
+}
+
+.card:hover {
+    background-color: var(--quaternary);
+    transition: background-color 0.3s;
+}
+
+.card:hover .icon {
+    color: var(--tertiary);
+    transition: color 0.3s;
+}
+
+/* title on card hover */
+.card:hover .title {
+    color: var(--tertiary);
+    transition: color 0.3s;
+}
