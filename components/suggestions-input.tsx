@@ -9,11 +9,17 @@ import { classNames } from "@/utils/index";
 interface SuggestionsInputProps {
   placeholder?: string;
   autoCompleteItems?: string[];
+  className?: string;
   onChange?: (searchTerm: string) => void;
 }
 
 function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
-  const { placeholder = "Search", autoCompleteItems, onChange } = props;
+  const {
+    placeholder = "Search",
+    autoCompleteItems,
+    onChange,
+    className,
+  } = props;
 
   const ref = useRef<HTMLInputElement>(null);
 
@@ -68,7 +74,7 @@ function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
   );
 
   return (
-    <div className={styles.searchBoxContainer}>
+    <div className={classNames(styles.searchBoxContainer, className)}>
       <div className={styles.searchBoxWrapper}>
         <RiSearch2Line className={styles.searchBoxIcon} />
         <input
