@@ -7,15 +7,17 @@ interface AnalogClockProps {
   time: Date;
   className?: string;
   size?: number;
+  onChange?: (_arg0: Date) => void;
 }
 
 function AnalogClock(props: AnalogClockProps) {
-  const { time: initial, className, size = 150 } = props;
+  const { time: initial, className, size = 150, onChange } = props;
   const [time, setTime] = useState<Date>(initial);
   const [ready, setReady] = useState<boolean>(false);
 
   const updateClock = useCallback(() => {
     setTime((prev) => new Date(prev.getTime() + 1000));
+    onChange?.(time);
   }, []);
 
   const initialClock = useCallback(() => {
