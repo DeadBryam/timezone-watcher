@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import styles from "@/styles/components/analog-clock.module.css";
 import { classNames } from "@/utils/index";
@@ -11,7 +11,8 @@ interface AnalogClockProps {
 
 function AnalogClock(props: AnalogClockProps) {
   const { time: initial, className, size = 150 } = props;
-  const [time, setTime] = useState(initial);
+  const [time, setTime] = useState<Date>(initial);
+  const [ready, setReady] = useState<boolean>(false);
 
   const updateClock = useCallback(() => {
     setTime((prev) => new Date(prev.getTime() + 1000));
@@ -24,27 +25,22 @@ function AnalogClock(props: AnalogClockProps) {
 
   const getAngle = (value: number, max: number) => (value % max) * (360 / max);
 
-  const hour = time.getHours();
-  const minute = time.getMinutes();
-  const seconds = time.getSeconds();
+  const angles = useMemo(() => {
+    const hour = time.getHours();
+    const minute = time.getMinutes();
+    const seconds = time.getSeconds();
 
-  const angles = {
-    hour: getAngle(hour, 12) + minute / 2,
-    minute: getAngle(minute, 60),
-    second: getAngle(seconds, 60),
-  };
+    return {
+      hour: getAngle(hour, 12) + minute / 2,
+      minute: getAngle(minute, 60),
+      second: getAngle(seconds, 60),
+    };
+  }, [time]);
 
-  const hourHandStyle = {
-    transform: `rotate(${angles.hour}deg)`,
-  };
-
-  const minuteHandStyle = {
-    transform: `rotate(${angles.minute}deg)`,
-  };
-
-  const secondHandStyle = {
-    transform: `rotate(${angles.second}deg)`,
-  };
+  const hourHandStyle = { transform: `rotate(${angles.hour}deg)` };
+  const minuteHandStyle = { transform: `rotate(${angles.minute}deg)` };
+  const secondHandStyle = { transform: `rotate(${angles.second}deg)` };
+  const hideHansStyle = { display: "none" };
 
   const clockStyle = {
     width: `${size}px`,
@@ -52,13 +48,14 @@ function AnalogClock(props: AnalogClockProps) {
     fontSize: `${6 * (size / 100)}px`,
   };
 
-  useLayoutEffect(() => {
-    return initialClock();
-  }, []);
-
   useEffect(() => {
     setTime(initial);
   }, [initial]);
+
+  useEffect(() => {
+    setReady(true);
+    return initialClock();
+  }, []);
 
   return (
     <div
@@ -69,21 +66,21 @@ function AnalogClock(props: AnalogClockProps) {
     >
       <div
         className={classNames(styles.hand, styles.hourHand)}
-        style={hourHandStyle}
+        style={ready ? hourHandStyle : hideHansStyle}
         id="analog-clock-hour-hand"
         data-testid="analog-clock-hour-hand"
       />
       <div
         className={classNames(styles.hand, styles.minuteHand)}
-        style={minuteHandStyle}
+        style={ready ? minuteHandStyle : hideHansStyle}
         id="analog-clock-minute-hand"
         data-testid="analog-clock-minute-hand"
       />
       <div
         className={classNames(styles.hand, styles.secondHand)}
-        style={secondHandStyle}
         id="analog-clock-second-hand"
         data-testid="analog-clock-second-hand"
+        style={ready ? secondHandStyle : hideHansStyle}
       />
       <div
         className={styles.centerDot}
