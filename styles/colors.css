@@ -1,7 +1,7 @@
 :root {
-    --primary: #2B2D42;
-    --secondary: #8D99AE;
-    --tertiary: #EDF2F4;
-    --quaternary: #EF233C;
-    --quinary: #D90429;
+    --primary: rgb(230, 57, 70);
+    --secondary: rgb(239, 35, 60);
+    --tertiary: rgb(237, 242, 244);
+    --quaternary: rgb(141, 153, 174);
+    --quinary: rgb(43, 45, 66);
 }
