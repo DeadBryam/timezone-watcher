@@ -41,17 +41,15 @@
 }
 
 .card:hover {
-    background-color: var(--quaternary);
-    transition: background-color 0.3s;
+    background-color: var(--light-blue);
 }
 
 .card:hover .icon {
-    color: var(--tertiary);
+    color: black;
     transition: color 0.3s;
 }
 
-/* title on card hover */
 .card:hover .title {
-    color: var(--tertiary);
+    color: black;
     transition: color 0.3s;
 }
