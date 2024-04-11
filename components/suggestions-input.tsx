@@ -68,6 +68,7 @@ function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
       if (!ref.current) return;
 
       ref.current.value = item;
+      onChange?.(item);
       debounceOnBlur();
     },
     [ref],
