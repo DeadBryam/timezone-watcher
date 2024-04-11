@@ -10,16 +10,19 @@ interface CustomButtonProps {
   onClick?: () => void;
   isDisabled?: boolean;
   isLoading?: boolean;
+  secondary?: boolean;
 }
 
 function CustomButton(props: CustomButtonProps): JSX.Element {
-  const { children, className, onClick, isDisabled, isLoading } = props;
+  const { children, className, onClick, isDisabled, isLoading, secondary } =
+    props;
 
   return (
     <button
       className={classNames(
         styles.button,
         className,
+        secondary ? styles.secondary : null,
         isLoading ? styles.loading : null,
       )}
       onClick={onClick}
