@@ -1,4 +1,4 @@
-import { RiTimeFill } from "@remixicon/react";
+import { RiMoonFill, RiSunFill } from "@remixicon/react";
 import { useCallback, useState } from "react";
 
 import styles from "@/styles/components/clock-card.module.css";
@@ -39,13 +39,23 @@ function ClockCard(props: ClockCardProps): JSX.Element {
         isNight ? styles.darkCard : styles.lightCard,
       )}
     >
-      <RiTimeFill
-        size={18}
-        className={classNames(
-          styles.icon,
-          isNight ? styles.darkIcon : styles.lightIcon,
-        )}
-      />
+      {isNight ? (
+        <RiMoonFill
+          size={18}
+          className={classNames(
+            styles.icon,
+            isNight ? styles.darkIcon : styles.lightIcon,
+          )}
+        />
+      ) : (
+        <RiSunFill
+          size={18}
+          className={classNames(
+            styles.icon,
+            isNight ? styles.darkIcon : styles.lightIcon,
+          )}
+        />
+      )}
       <p
         id="clock-card-title"
         data-testid="title"
