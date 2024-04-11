@@ -1,0 +1,10 @@
+.worldMap{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/1;
+    border-radius: 25px;
+}
+
+.mapContainer{
+    width: 100%;
+}
