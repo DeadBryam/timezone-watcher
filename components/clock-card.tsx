@@ -1,5 +1,5 @@
 import { RiMoonFill, RiSunFill } from "@remixicon/react";
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 
 import styles from "@/styles/components/clock-card.module.css";
 
@@ -16,6 +16,7 @@ interface ClockCardProps {
 
 function ClockCard(props: ClockCardProps): JSX.Element {
   const { time, title, className, onClick } = props;
+  const MemoizedAnalogClock = memo(AnalogClock);
 
   const [isNight, setIsNight] = useState<boolean>(false);
 
@@ -66,7 +67,7 @@ function ClockCard(props: ClockCardProps): JSX.Element {
       >
         {title}
       </p>
-      <AnalogClock time={time} onChange={updateNight} />
+      <MemoizedAnalogClock time={time} onChange={updateNight} />
     </Card>
   );
 }
