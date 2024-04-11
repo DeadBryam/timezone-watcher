@@ -5,7 +5,7 @@ import { ClockCard } from "@/components/index";
 describe("Test ClockCard component", () => {
   test("renders ClockCard component", () => {
     const { getByTestId } = render(
-      <ClockCard time={new Date()} title="Test" />,
+      <ClockCard timezone="2021-10-10T10:00:00Z" title="Test" />,
     );
 
     const card = getByTestId("card");
