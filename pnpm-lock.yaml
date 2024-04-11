@@ -35,6 +35,9 @@ dependencies:
   server-only:
     specifier: ^0.0.1
     version: 0.0.1
+  store2:
+    specifier: ^2.14.3
+    version: 2.14.3
 
 devDependencies:
   '@commitlint/cli':
@@ -5198,6 +5201,10 @@ packages:
     dependencies:
       internal-slot: 1.0.7
     dev: true
+
+  /store2@2.14.3:
+    resolution: {integrity: sha512-4QcZ+yx7nzEFiV4BMLnr/pRa5HYzNITX2ri0Zh6sT9EyQHbBHacC6YigllUPU9X3D0f/22QCgfokpKs52YRrUg==}
+    dev: false
 
   /streamsearch@1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
