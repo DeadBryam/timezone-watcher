@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { LocalTimeZone } from "@types";
 import { memo } from "react";
 import { Else, If, Then } from "react-if";
@@ -26,8 +27,10 @@ function TimeZoneDisplay(props: TimeZoneDisplayProps): JSX.Element {
     clearTimeZoneInfo,
   } = props;
 
+  const [ref] = useAutoAnimate<HTMLDivElement>();
+
   return (
-    <Card className={styles.timezoneInfo}>
+    <Card className={styles.timezoneInfo} styleRef={ref}>
       <If condition={timeZone !== undefined}>
         <Then>
           <h4>Informacion de la zona horaria</h4>
