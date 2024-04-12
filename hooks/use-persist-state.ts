@@ -3,17 +3,17 @@ import store from "store2";
 
 type StorageType = "local" | "session";
 
-const usePersistState = <S>({
-  storageKey,
-  initialState,
-  storageType = "local",
-}: {
+interface UsePersistStateProps<S> {
   storageKey: string;
   initialState?: S;
   storageType?: StorageType;
-}): [S | undefined, Dispatch<SetStateAction<S>>] => {
-  const [data, setData] = useState<S | undefined>(initialState);
+}
 
+const usePersistState = <S>(
+  props: UsePersistStateProps<S>,
+): [S | undefined, Dispatch<SetStateAction<S>>] => {
+  const { storageKey, initialState, storageType = "local" } = props;
+  const [data, setData] = useState<S | undefined>(initialState);
   useEffect(() => processState(), []);
 
   /**
@@ -25,9 +25,7 @@ const usePersistState = <S>({
    */
   const processState = (): void => {
     const storageInBrowser = store[storageType].get(storageKey);
-    if (Boolean(storageInBrowser)) {
-      setData(storageInBrowser);
-    }
+    if (Boolean(storageInBrowser)) setData(storageInBrowser);
   };
 
   /**
@@ -40,7 +38,7 @@ const usePersistState = <S>({
    *
    */
   const setState: Dispatch<SetStateAction<S>> = (
-    newState: SetStateAction<S> | ((prevState: S) => S),
+    newState: SetStateAction<S> | ((prevState: S | undefined) => S),
   ) => {
     const value =
       typeof newState === "function"
