@@ -13,6 +13,8 @@ interface SuggestionsInputProps {
   onChange?: (searchTerm: string) => void;
 }
 
+const MAX_SUGGESTIONS = 20;
+
 function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
   const {
     placeholder = "Search",
@@ -45,20 +47,33 @@ function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
     filterAutoCompleteItems(value);
   }, []);
 
-  const debounceOnBlur = useCallback(debounce(onBlur, 300), [onBlur]);
+  const debounceOnBlur = useCallback(debounce(onBlur, 150), [onBlur]);
   const debounceOnChange = useCallback(debounce(onInputChange, 300), [
     onInputChange,
   ]);
 
+  const filterSuggestions = useCallback((list: string[], value: string) => {
+    const items = [];
+
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+      if (
+        item.toLowerCase().includes(value.toLowerCase()) ||
+        item.replace("_", " ").toLowerCase().includes(value.toLowerCase())
+      ) {
+        items.push(item);
+      }
+
+      if (items.length >= MAX_SUGGESTIONS) break;
+    }
+
+    return items;
+  }, []);
+
   const filterAutoCompleteItems = useCallback(
     (searchTerm: string): void => {
-      if (!autoCompleteItems || !searchTerm) return;
-
-      const filteredItems = autoCompleteItems?.filter((item) =>
-        item.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-
-      setSuggestions(filteredItems);
+      if (!autoCompleteItems) return;
+      setSuggestions(filterSuggestions(autoCompleteItems, searchTerm));
     },
     [autoCompleteItems],
   );
