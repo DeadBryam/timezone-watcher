@@ -8,16 +8,24 @@ import { AnalogClock } from "./analog-clock";
 import { Card } from "./card";
 
 interface ClockCardProps {
-  timezone: string;
+  offset: number;
   title: string;
   className?: string;
   onClick?: () => void;
 }
 
 function ClockCard(props: ClockCardProps): JSX.Element {
-  const { timezone, title, className, onClick } = props;
+  const { offset, title, className, onClick } = props;
   const MemoizedAnalogClock = memo(AnalogClock);
-  const time = useMemo(() => new Date(Date.parse(timezone)), [timezone]);
+  const time = useMemo(() => {
+    const now = new Date();
+    const diff = now.getTimezoneOffset();
+    const offsetInMinutes = offset / 1000 / 60;
+    const newDate = new Date(
+      now.getTime() + (offsetInMinutes + diff) * 60 * 1000,
+    );
+    return newDate;
+  }, [offset]);
 
   const [isNight, setIsNight] = useState<boolean>(false);
 
