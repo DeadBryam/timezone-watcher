@@ -3,4 +3,5 @@ export interface LocalTimeZone {
   region: string;
   offset: number;
   timezone: string;
+  saved?: boolean;
 }
