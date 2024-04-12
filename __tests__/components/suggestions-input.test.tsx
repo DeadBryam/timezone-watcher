@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 
 import { SuggestionsInput } from "@/components/index";
 
@@ -19,7 +19,10 @@ describe("Test SuggestionsInput component", () => {
       />,
     );
     const inputElement = getByPlaceholderText("Test Placeholder");
-    inputElement.focus();
+
+    act(() => {
+      inputElement.focus();
+    });
 
     fireEvent.change(inputElement, { target: { value: "a" } });
     await waitFor(() => {
