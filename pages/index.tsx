@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { LocalTimeZone, TimeZone } from "@types";
 import axios from "axios";
 import { GetServerSidePropsContext } from "next";
@@ -35,6 +36,7 @@ export default function Home({ timeZones }: HomeProps): JSX.Element {
   });
 
   const router = useRouter();
+  const [clockRef] = useAutoAnimate<HTMLDivElement>();
   const inputRef = useRef<HTMLInputElementWithClearInput>(null);
 
   const getTimeZoneInfo = useCallback(async () => {
@@ -200,7 +202,7 @@ export default function Home({ timeZones }: HomeProps): JSX.Element {
           <div className={styles.timezoneListContainer}>
             <If condition={zones?.length ?? 0 > 0}>
               <Then>
-                <div className={styles.timezoneList}>
+                <div ref={clockRef} className={styles.timezoneList}>
                   {zones?.map((e, i) => (
                     <ClockCard
                       key={i}
