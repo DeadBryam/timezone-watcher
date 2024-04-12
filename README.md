@@ -16,47 +16,53 @@ El proyecto cuenta con dos páginas. La primera tiene la función de buscar zona
 Para ejecutar este proyecto, se recomienda el uso de [Volta](https://volta.sh/).
 
 #### Requisitos
+
 - Node v20.x.x (Específicamente 20.12.2).
 - Pnpm v8.7.6.
 - Vercel
 
 #### Pasos a seguir:
-1. Clonar proyecto 
-    ```bash
-    git clone https://github.com/DeadBryam/timezone-watcher.git
-    cd timezone-watcher
-    ```
+
+1. Clonar proyecto
+
+   ```bash
+   git clone https://github.com/DeadBryam/timezone-watcher.git
+   cd timezone-watcher
+   ```
 
 2. Instalar paquetes
-    ```bash
-    pnpm install
-    ```
-    
+   ```bash
+   pnpm install
+   ```
 3. Ejecutar proyecto
-    ```bash
-    pnpm dev
-    ```
 
-    *Disclaimer: Si se desea probar el proyecto con el consumo del API (edge functions), utilizar el comando:
-    ```bash
-    vercel dev
-    ```
+   ```bash
+   pnpm dev
+   ```
+
+   \*Disclaimer: Si se desea probar el proyecto con el consumo del API (edge functions), utilizar el comando:
+
+   ```bash
+   vercel dev
+   ```
 
 4. Para ejecutar las pruebas, usar el comando
-    ```bash
-    pnpm test
-    ```
+   ```bash
+   pnpm test
+   ```
 
 ## Despliegue
 
 Para desplegar este proyecto, se recomienda el uso de Vercel.
 
 - Para crear una snapshot, utilizar el siguiente comando
+
 ```bash
   vercel
 ```
 
 - Para desplegar el proyecto en producción, utilizar
+
 ```bash
 vercel --prod
 ```
@@ -86,9 +92,32 @@ El proyecto se puede encontrar en el siguiente [enlace](https://timezone-watcher
 ## Stack
 
 El proyecto fue realizado con:
+
 - Next.js: Uno de los frameworks de React más famosos actualmente.
 - @formkit/auto-animate: Una forma rápida y sencilla de agregar animaciones con "una simple línea de código".
 - axios: Librería para realizar solicitudes HTTP.
 - lodash-es: Utilidades de JavaScript para trabajar con datos de forma eficiente.
 - Leaflet: Librería para crear mapas interactivos en aplicaciones web.
 - react-toastify: Biblioteca para mostrar notificaciones estilo toast.
+
+## Estructura de carpetas
+
+```bash
+.
+├── __tests__/ <-- Pruebas unitarias
+├──── components/ <-- Pruebas de componentes
+├──── hooks/ <-- Pruebas de páginas
+├──── utils/ <-- Pruebas de utilidades
+├── .husky/ <-- Configuración de Husky
+├── @types/ <-- Tipos de TypeScript
+├── api/ <-- Funciones de Vercel
+├── components/ <-- Componentes de la aplicación
+├── hooks/ <-- Hooks personalizados
+├── pages/ <-- Páginas de la aplicación
+├── public/ <-- Archivos estáticos
+├── styles/ <-- Estilos globales
+├──── components/ <-- Estilos de componentes
+├──── pages/ <-- Estilos de páginas
+├── utils/ <-- Utilidades, funciones y constantes
+├── .env <-- Variables de entorno
+```
