@@ -1,0 +1,69 @@
+.title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.timezoneGrid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 20px;
+    width: 100%;
+}
+
+.mapContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 150px;
+}
+
+.clockContainer {
+    display: flex;
+    gap: 20px;
+}
+
+.timezoneInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    margin: 100px auto;
+}
+
+@media (max-width: 768px) {
+    .main {
+        margin: 50px auto;
+    }
+
+    .title{
+        flex-direction: column;
+    }
+
+    .timezoneGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .clockContainer{
+        flex-direction: column;
+    }
+
+    .timezoneInfo{
+        display: block;
+        columns: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        margin: 20px auto;
+    }
+}
