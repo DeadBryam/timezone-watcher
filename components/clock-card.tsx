@@ -1,4 +1,5 @@
 import { RiMoonFill, RiSunFill } from "@remixicon/react";
+import { LocalTimeZone } from "@types";
 import { memo, useCallback, useMemo, useState } from "react";
 
 import styles from "@/styles/components/clock-card.module.css";
@@ -8,16 +9,16 @@ import { AnalogClock } from "./analog-clock";
 import { Card } from "./card";
 
 interface ClockCardProps {
-  offset: number;
-  title: string;
   className?: string;
-  onClick?: () => void;
+  timeZone?: LocalTimeZone;
+  onClick?: (_id?: LocalTimeZone) => void;
 }
 
 function ClockCard(props: ClockCardProps): JSX.Element {
-  const { offset, title, className, onClick } = props;
+  const { timeZone, className, onClick } = props;
   const MemoizedAnalogClock = memo(AnalogClock);
   const time = useMemo(() => {
+    const { offset } = timeZone || { offset: 0 };
     const now = new Date();
     const diff = now.getTimezoneOffset();
     const offsetInMinutes = offset / 1000 / 60;
@@ -25,7 +26,7 @@ function ClockCard(props: ClockCardProps): JSX.Element {
       now.getTime() + (offsetInMinutes + diff) * 60 * 1000,
     );
     return newDate;
-  }, [offset]);
+  }, [timeZone?.offset]);
 
   const [isNight, setIsNight] = useState<boolean>(false);
 
@@ -35,9 +36,7 @@ function ClockCard(props: ClockCardProps): JSX.Element {
   }, []);
 
   const handleClick = useCallback(() => {
-    if (onClick) {
-      onClick();
-    }
+    onClick?.(timeZone);
   }, [onClick]);
 
   return (
@@ -74,11 +73,13 @@ function ClockCard(props: ClockCardProps): JSX.Element {
           isNight ? styles.darkTitle : styles.lightTitle,
         )}
       >
-        {title}
+        {timeZone?.region}
       </p>
       <MemoizedAnalogClock time={time} onChange={updateNight} />
     </Card>
   );
 }
 
-export { ClockCard };
+const MemiozedClockCard = memo(ClockCard);
+
+export { ClockCard, MemiozedClockCard };
