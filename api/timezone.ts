@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_TIME_API}Time/current/zone?timeZone=${timezone}`,
+      `${process.env.NEXT_PUBLIC_TIME_API}TimeZone/zone?timeZone=${timezone}`,
       {
         method: "GET",
         headers: {
