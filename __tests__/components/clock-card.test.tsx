@@ -4,9 +4,7 @@ import { ClockCard } from "@/components/index";
 
 describe("Test ClockCard component", () => {
   test("renders ClockCard component", () => {
-    const { getByTestId } = render(
-      <ClockCard timezone="2021-10-10T10:00:00Z" title="Test" />,
-    );
+    const { getByTestId } = render(<ClockCard offset={7200000} title="Test" />);
 
     const card = getByTestId("card");
     expect(card).toBeInTheDocument();
