@@ -23,7 +23,7 @@ function Map(props: MapProps) {
       <MapContainer
         className={styles.worldMap}
         center={[lat, lng]}
-        zoom={1}
+        zoom={0.5}
         zoomControl={false}
         zoomAnimation={false}
         scrollWheelZoom={false}
@@ -39,7 +39,11 @@ function Map(props: MapProps) {
             iconSize: [40, 40],
           })}
         >
-          {description && <Popup>{description}</Popup>}
+          {description && (
+            <Popup>
+              <p className={styles.popupDescription}>{description}</p>
+            </Popup>
+          )}
         </Marker>
       </MapContainer>
     </div>

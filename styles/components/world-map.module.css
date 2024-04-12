@@ -1,10 +1,26 @@
-.worldMap{
+.worldMap {
     position: relative;
     width: 100%;
-    aspect-ratio: 2/1;
+    aspect-ratio: 2.5/1;
     border-radius: 25px;
 }
 
-.mapContainer{
+.mapContainer {
     width: 100%;
+}
+
+.popupDescription {
+    white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+    .worldMap {
+        aspect-ratio: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .worldMap {
+        aspect-ratio: 1.2;
+    }
 }
