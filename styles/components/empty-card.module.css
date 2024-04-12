@@ -1,0 +1,11 @@
+.emptyCard {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
