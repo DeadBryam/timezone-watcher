@@ -1,4 +1,4 @@
-import { Location } from "@types";
+import { LocalTimeZone, Location } from "@types";
 import axios from "axios";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
@@ -31,8 +31,18 @@ function TimeZone(props: TimeZoneProps): JSX.Element {
   }, [location]);
 
   const currentOffset = useMemo(() => {
-    const today = new Date().getTimezoneOffset();
-    return today * 60 * 1000;
+    const today = -new Date().getTimezoneOffset();
+    return {
+      offset: today * 60 * 1000,
+      region: "Hora actual",
+    } as LocalTimeZone;
+  }, [location]);
+
+  const timeZone = useMemo(() => {
+    return {
+      offset: location.timezone_millis,
+      region: rawRegion,
+    } as LocalTimeZone;
   }, [location]);
 
   return (
@@ -91,8 +101,8 @@ function TimeZone(props: TimeZoneProps): JSX.Element {
               description={`UBICACIÓN:${location.geo?.city}, ${location.geo?.country}.\nFECHA:${location.date_time}.\nTIMEZONE: ${rawRegion}.`}
             />
             <div className={styles.clockContainer}>
-              <ClockCard offset={currentOffset} title="Hora actual" />
-              <ClockCard offset={location.timezone_millis} title={region} />
+              <ClockCard timeZone={currentOffset} />
+              <ClockCard timeZone={timeZone} />
             </div>
           </div>
         </div>
