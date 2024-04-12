@@ -1,6 +1,6 @@
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { LocalTimeZone, TimeZone } from "@types";
 import axios from "axios";
+import _ from "lodash";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -10,11 +10,11 @@ import { toast } from "react-toastify";
 import { classNames } from "utils";
 
 import {
-  Card,
-  ClockCard,
   CustomButton,
   EmptyCard,
   HTMLInputElementWithClearInput,
+  MemoizedClockList,
+  MemoizedTimeZoneDisplay,
   SuggestionsInput,
 } from "@/components/index";
 import { usePersistState } from "@/hooks/index";
@@ -29,14 +29,12 @@ const MAX_ZONES = 9;
 export default function Home({ timeZones }: HomeProps): JSX.Element {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [timezone, setTimezone] = useState<LocalTimeZone>();
-  const [isLocal, setIsLocal] = useState<boolean>(false);
   const [zones, setZones] = usePersistState<LocalTimeZone[]>({
     storageKey: "timezones",
     initialState: [],
   });
 
   const router = useRouter();
-  const [clockRef] = useAutoAnimate<HTMLDivElement>();
   const inputRef = useRef<HTMLInputElementWithClearInput>(null);
 
   const getTimeZoneInfo = useCallback(async () => {
@@ -48,8 +46,6 @@ export default function Home({ timeZones }: HomeProps): JSX.Element {
     }
 
     setIsSearching(true);
-    setIsLocal(false);
-
     try {
       const res = await axios.get(`/api/timezone?tz=${searchTerm}`);
       if (res.status === 200) {
@@ -78,7 +74,6 @@ export default function Home({ timeZones }: HomeProps): JSX.Element {
 
   const clearTimeZoneInfo = useCallback(() => {
     setTimezone(undefined);
-    setIsLocal(false);
   }, []);
 
   const saveTimeZone = useCallback(() => {
@@ -88,18 +83,23 @@ export default function Home({ timeZones }: HomeProps): JSX.Element {
     }
 
     if (timezone) {
-      setZones((prev) => {
-        const exists = prev.find((e) => e.region === timezone.region);
-        return exists ? prev : [...prev, timezone];
-      });
+      const exists = _.find(zones, { region: timezone.region });
+      if (!exists) {
+        setZones((prev) => [
+          ...prev,
+          {
+            ...timezone,
+            saved: true,
+          },
+        ]);
+      }
     }
     setTimezone(undefined);
   }, [timezone]);
 
   const loadTimeZoneInfo = useCallback(
-    (index: number) => {
-      setIsLocal(true);
-      setTimezone(zones?.[index]);
+    (tz?: LocalTimeZone) => {
+      setTimezone(tz);
     },
     [zones],
   );
@@ -107,7 +107,6 @@ export default function Home({ timeZones }: HomeProps): JSX.Element {
   const removeSelectedZone = useCallback(() => {
     setZones((prev) => prev.filter((e) => e.region !== timezone?.region));
     setTimezone(undefined);
-    setIsLocal(false);
   }, [timezone]);
 
   const onViewTimeZone = useCallback(() => {
@@ -147,71 +146,18 @@ export default function Home({ timeZones }: HomeProps): JSX.Element {
         </If>
         <div className={styles.container}>
           <div>
-            <Card className={styles.timezoneInfo}>
-              <If condition={timezone !== undefined}>
-                <Then>
-                  <h4>Informacion de la zona horaria</h4>
-                  <ClockCard
-                    offset={timezone?.offset || 0}
-                    title={timezone?.region || ""}
-                    className={styles.timezoneCard}
-                  />
-                  <p>
-                    Diferencia horaria:&nbsp;
-                    <b>{timezone?.diff} horas</b>
-                  </p>
-                  <If condition={isLocal}>
-                    <Then>
-                      <div className={styles.timezoneActions}>
-                        <CustomButton onClick={clearTimeZoneInfo}>
-                          Cancelar
-                        </CustomButton>
-                        <CustomButton onClick={removeSelectedZone} secondary>
-                          Remover
-                        </CustomButton>
-                      </div>
-                      <CustomButton
-                        onClick={onViewTimeZone}
-                        className={styles.seeMore}
-                      >
-                        Ver mas informacion
-                      </CustomButton>
-                    </Then>
-                    <Else>
-                      <div className={styles.timezoneActions}>
-                        <CustomButton onClick={clearTimeZoneInfo} secondary>
-                          Limpiar
-                        </CustomButton>
-                        <CustomButton onClick={saveTimeZone}>
-                          Guardar
-                        </CustomButton>
-                      </div>
-                    </Else>
-                  </If>
-                </Then>
-                <Else>
-                  <EmptyCard
-                    title="No hay informacion de la zona horaria"
-                    description="Por favor, busca o selecciona una zona horaria"
-                    isSad
-                  />
-                </Else>
-              </If>
-            </Card>
+            <MemoizedTimeZoneDisplay
+              timeZone={timezone}
+              onViewTimeZone={onViewTimeZone}
+              saveTimeZone={saveTimeZone}
+              removeSelectedZone={removeSelectedZone}
+              clearTimeZoneInfo={clearTimeZoneInfo}
+            />
           </div>
           <div className={styles.timezoneListContainer}>
             <If condition={zones?.length ?? 0 > 0}>
               <Then>
-                <div ref={clockRef} className={styles.timezoneList}>
-                  {zones?.map((e, i) => (
-                    <ClockCard
-                      key={i}
-                      title={e.region}
-                      offset={e.offset}
-                      onClick={() => loadTimeZoneInfo(i)}
-                    />
-                  ))}
-                </div>
+                <MemoizedClockList zones={zones} onClick={loadTimeZoneInfo} />
               </Then>
               <Else>
                 <EmptyCard

@@ -8,7 +8,6 @@
 .main {
     display: flex;
     flex-direction: column;
-    align-items: start;
     gap: 20px;
     margin: 100px auto;
 }
@@ -39,42 +38,11 @@
     margin-left: auto;
 }
 
-.timezoneCard {
-    width: 100%;
-}
-
-.timezoneInfo {
-    gap: 10px;
-    text-align: center;
-    padding: 35px 20px;
-}
-
-.timezoneActions {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-}
-
-.timezoneActions button {
-    width: 100%;
-}
-
 .timezoneListContainer {
     display: flex;
     flex-direction: column;
     text-align: center;
     gap: 20px;
-    width: 100%;
-}
-
-.timezoneList {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.seeMore {
     width: 100%;
 }
 
