@@ -1,7 +1,15 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { RiSearch2Line } from "@remixicon/react";
 import { debounce } from "lodash";
-import { useCallback, useRef, useState } from "react";
+import {
+  forwardRef,
+  Ref,
+  RefObject,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 import styles from "@/styles/components/suggestions-input.module.css";
 import { classNames } from "@/utils/index";
@@ -10,40 +18,46 @@ interface SuggestionsInputProps {
   placeholder?: string;
   autoCompleteItems?: string[];
   className?: string;
-  onChange?: (searchTerm: string) => void;
+  innerRef?: RefObject<HTMLInputElement>;
+}
+
+interface HTMLInputElementWithClearInput extends HTMLInputElement {
+  clearInput: () => void;
 }
 
 const MAX_SUGGESTIONS = 20;
 
-function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
+function SuggestionsInput(
+  props: SuggestionsInputProps,
+  ref: Ref<HTMLInputElement>,
+) {
   const {
     placeholder = "Search",
     autoCompleteItems,
-    onChange,
     className,
+    innerRef,
   } = props;
 
-  const ref = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [suggestionsRef] = useAutoAnimate<HTMLUListElement>();
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const onInputChange = useCallback(() => {
-    if (!ref.current) return;
-    const { value } = ref.current;
+    if (!inputRef.current) return;
+    const { value } = inputRef.current;
 
     filterAutoCompleteItems(value);
-    onChange?.(value);
-  }, [onChange]);
+  }, [inputRef.current?.value]);
 
   const onBlur = useCallback(() => {
     setSuggestions([]);
   }, []);
 
   const onFocus = useCallback(() => {
-    if (!ref.current) return;
+    if (!inputRef.current) return;
 
-    const { value } = ref.current;
+    const { value } = inputRef.current;
     filterAutoCompleteItems(value);
   }, []);
 
@@ -80,21 +94,30 @@ function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
 
   const onAutoCompleteItemClick = useCallback(
     (item: string) => {
-      if (!ref.current) return;
+      if (!inputRef.current) return;
 
-      ref.current.value = item;
-      onChange?.(item);
+      inputRef.current.value = item;
       debounceOnBlur();
     },
-    [ref],
+    [inputRef],
   );
 
+  const clearInput = useCallback(() => {
+    if (!inputRef.current) return;
+    inputRef.current.value = "";
+  }, [inputRef]);
+
+  useImperativeHandle<unknown, unknown>(innerRef, () => ({
+    ...inputRef.current,
+    clearInput,
+  }));
+
   return (
-    <div className={classNames(styles.searchBoxContainer, className)}>
+    <div ref={ref} className={classNames(styles.searchBoxContainer, className)}>
       <div className={styles.searchBoxWrapper}>
         <RiSearch2Line className={styles.searchBoxIcon} />
         <input
-          ref={ref}
+          ref={inputRef}
           type="text"
           id="suggestions-input"
           onFocus={onFocus}
@@ -125,4 +148,7 @@ function SuggestionsInput(props: SuggestionsInputProps): JSX.Element {
   );
 }
 
-export { SuggestionsInput };
+const SuggestionsInputRef = forwardRef(SuggestionsInput);
+
+export { SuggestionsInputRef as SuggestionsInput };
+export type { HTMLInputElementWithClearInput };
