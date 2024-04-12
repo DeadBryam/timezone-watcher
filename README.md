@@ -1,35 +1,94 @@
-# Next.js + Jest
+# Timezone Watcher - React Dev Test
 
-This example shows how to configure Jest to work with Next.js.
+"Timezone Watcher" es un proyecto que nació de una prueba técnica. El proyecto consiste en consumir dos APIs para obtener información de zonas horarias y un listado de ellos.
 
-This includes Next.js' built-in support for Global CSS, CSS Modules and TypeScript. This example also shows how to use Jest with the App Router and React Server Components.
+Las APIs utilizadas son [TimeApi](https://timeapi.io/) y [IpGeolocation](https://ipgeolocation.io/), ambas con una capa gratuita.
 
-> **Note:** Since tests can be co-located alongside other files inside the App Router, we have placed those tests in `app/` to demonstrate this behavior (which is different than `pages/`). You can still place all tests in `__tests__` if you prefer.
+El proyecto cuenta con dos páginas. La primera tiene la función de buscar zonas horarias por su nombre, ver su información y guardarlas localmente para comparar sus horarios mediante un reloj analógico. La segunda página tiene la función de ver más información de la zona horaria, así como un mapa de su ubicación.
 
-## Deploy your own
+## Screenshots
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-jest&project-name=with-jest&repository-name=with-jest)
+![Screenshot_12-4-2024_3737_timezone-watcher vercel app](https://github.com/DeadBryam/timezone-watcher/assets/32852885/f9e2e034-0fcc-4c1c-bed2-234e7c8f1e21)
+![Screenshot_12-4-2024_383_timezone-watcher vercel app](https://github.com/DeadBryam/timezone-watcher/assets/32852885/b0ea05cd-ca2c-4ac9-9ea2-5e2e416864eb)
 
-## How to Use
+## Instalación
 
-Quickly get started using [Create Next App](https://github.com/vercel/next.js/tree/canary/packages/create-next-app#readme)!
+Para ejecutar este proyecto, se recomienda el uso de [Volta](https://volta.sh/).
 
-In your terminal, run the following command:
+#### Requisitos
+- Node v20.x.x (Específicamente 20.12.2).
+- Pnpm v8.7.6.
+- Vercel
 
+#### Pasos a seguir:
+1. Clonar proyecto 
+    ```bash
+    git clone https://github.com/DeadBryam/timezone-watcher.git
+    cd timezone-watcher
+    ```
+
+2. Instalar paquetes
+    ```bash
+    pnpm install
+    ```
+    
+3. Ejecutar proyecto
+    ```bash
+    pnpm dev
+    ```
+
+    *Disclaimer: Si se desea probar el proyecto con el consumo del API (edge functions), utilizar el comando:
+    ```bash
+    vercel dev
+    ```
+
+4. Para ejecutar las pruebas, usar el comando
+    ```bash
+    pnpm test
+    ```
+
+## Despliegue
+
+Para desplegar este proyecto, se recomienda el uso de Vercel.
+
+- Para crear una snapshot, utilizar el siguiente comando
 ```bash
-npx create-next-app --example with-jest with-jest-app
+  vercel
 ```
 
+- Para desplegar el proyecto en producción, utilizar
 ```bash
-yarn create next-app --example with-jest with-jest-app
+vercel --prod
 ```
 
-```bash
-pnpm create next-app --example with-jest with-jest-app
+## Variables de entorno
+
+Para correr este proyecto, se necesita crear un archivo `.env` en la raíz del proyecto con la siguiente estructura:
+
+```
+NEXT_PUBLIC_TIME_API=
+NEXT_PUBLIC_IP_GEOLOCATION_API=
+NEXT_PUBLIC_IP_GEOLOCATION_API_KEY=
 ```
 
-## Running Tests
+Como valores por defecto, se pueden usar:
 
-```bash
-npm test
 ```
+NEXT_PUBLIC_TIME_API=https://timeapi.io/api/
+NEXT_PUBLIC_IP_GEOLOCATION_API=https://api.ipgeolocation.io/timezone
+NEXT_PUBLIC_IP_GEOLOCATION_API_KEY=<Generar el api key propio>
+```
+
+## Demo
+
+El proyecto se puede encontrar en el siguiente [enlace](https://timezone-watcher.vercel.app/).
+
+## Stack
+
+El proyecto fue realizado con:
+- Next.js: Uno de los frameworks de React más famosos actualmente.
+- @formkit/auto-animate: Una forma rápida y sencilla de agregar animaciones con "una simple línea de código".
+- axios: Librería para realizar solicitudes HTTP.
+- lodash-es: Utilidades de JavaScript para trabajar con datos de forma eficiente.
+- Leaflet: Librería para crear mapas interactivos en aplicaciones web.
+- react-toastify: Biblioteca para mostrar notificaciones estilo toast.
