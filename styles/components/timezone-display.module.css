@@ -1,0 +1,23 @@
+.timezoneInfo {
+    gap: 10px;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.timezoneCard {
+    width: 100%;
+}
+
+.timezoneActions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.timezoneActions button {
+    width: 100%;
+}
+
+.seeMore {
+    width: 100%;
+}
